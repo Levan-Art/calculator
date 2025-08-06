@@ -1,61 +1,41 @@
-const board = document.getElementById('board');
-const cells = document.querySelectorAll('.cell');
-const message = document.getElementById('message');
-const resetBtn = document.getElementById('resetBtn');
+const display = document.getElementById('display');
+const buttons = document.querySelectorAll('button');
+let currentInput = '';
 
-let currentPlayer = 'X';
-let gameState = ['', '', '', '', '', '', '', '', ''];
-let gameActive = true;
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        const value = button.textContent;
 
-const winningConditions = [
-  [0,1,2], [3,4,5], [6,7,8], // rows
-  [0,3,6], [1,4,7], [2,5,8], // columns
-  [0,4,8], [2,4,6]           // diagonals
-];
-
-function handleCellClick(e) {
-  const clickedCell = e.target;
-  const clickedIndex = parseInt(clickedCell.getAttribute('data-index'));
-
-  if (gameState[clickedIndex] !== '' || !gameActive) {
-    return;
-  }
-
-  gameState[clickedIndex] = currentPlayer;
-  clickedCell.textContent = currentPlayer;
-
-  if (checkWin()) {
-    message.textContent = `Player ${currentPlayer} wins! 🎉`;
-    gameActive = false;
-    return;
-  }
-
-  if (!gameState.includes('')) {
-    message.textContent = "It's a draw! 🤝";
-    gameActive = false;
-    return;
-  }
-
-  currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-  message.textContent = `Player ${currentPlayer}'s turn`;
-}
-
-function checkWin() {
-  return winningConditions.some(condition => {
-    const [a,b,c] = condition;
-    return gameState[a] && gameState[a] === gameState[b] && gameState[a] === gameState[c];
-  });
-}
-
-function resetGame() {
-  currentPlayer = 'X';
-  gameState = ['', '', '', '', '', '', '', '', ''];
-  gameActive = true;
-  cells.forEach(cell => cell.textContent = '');
-  message.textContent = `Player ${currentPlayer}'s turn`;
-}
-
-cells.forEach(cell => cell.addEventListener('click', handleCellClick));
-resetBtn.addEventListener('click', resetGame);
-
-message.textContent = `Player ${currentPlayer}'s turn`;
+        if (value === 'C') {
+            currentInput = '';
+            display.value = '';
+        } else if (value === '←') {
+            currentInput = currentInput.slice(0, -1);
+            display.value = currentInput;
+        } else if (value === '%') {
+            try {
+                // გამოანგარიშე მიმდინარე მნიშვნელობა
+                let result = eval(currentInput);
+                // გადააქციე პროცენტად
+                result = result / 100;
+                currentInput = result.toString();
+                display.value = currentInput;
+            } catch {
+                currentInput = 'Error';
+                display.value = currentInput;
+            }
+        } else if (value === '=') {
+            try {
+                currentInput = eval(currentInput).toString();
+                display.value = currentInput;
+            } catch {
+                currentInput = 'Error';
+                display.value = currentInput;
+            }
+        } else {
+            if (currentInput === 'Error') currentInput = '';
+            currentInput += value;
+            display.value = currentInput;
+        }
+    });
+});

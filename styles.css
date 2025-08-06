@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 0 15px;
+    background-color: #0e476d; /* ლურჯი ფონი */
+    color: white;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#display {
+    width: 100%;
+    height: 60px;
+    font-size: 2em;
+    text-align: right;
+    margin-bottom: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: none;
+    background-color: rgb(79, 184, 226);
+    color: black;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* ღილაკებს გაავრცელებს თანაბრად */
+    gap: 10px; /* დამატებით დაშორება ღილაკებს შორის */
+}
+button {
+    width: calc(25% - 10px); /* ოთხი ღილაკი ერთ ხაზზე, დაშორებით */
+    height: 60px;
+    font-size: 1.6em;
+    cursor: pointer;
+    border: none;
+    background-color: rgb(17, 216, 223);
+    color: #007BFF;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    border-radius: 5px; /* სურვილის შემთხვევაში */
+}
+
+button:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+/* Optional: highlight the "C" button differently */
+button:nth-child(1) {
+    background-color: #ff4d4d;
+    color: white;
+}
